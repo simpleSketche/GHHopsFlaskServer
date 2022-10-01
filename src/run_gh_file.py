@@ -24,12 +24,17 @@ from Grasshopper.Kernel.Data import GH_Path
 from Grasshopper.Kernel.Types import GH_String
 from Grasshopper.Kernel import IGH_Param
 
-def run_gh_file(input):
-    definition = GH_Document()
+# run and access GH document
+definition = GH_Document()
+archive = GH_Archive()
 
-    archive = GH_Archive()
+def gh_addition(input):
+    '''
+    do addition and get results from gh c# component
+    '''
+    
 
-    archive.ReadFromFile("gh_files/addTwoNumebrsC#.gh")
+    archive.ReadFromFile("gh_files/rhinoinsideTestFIle.gh")
     archive.ExtractObject(definition, "Definition")
 
     output = {
@@ -51,6 +56,38 @@ def run_gh_file(input):
             result = param.get_VolatileData()[0][0]
             output["result"] = result
             print(result)
+
+            # the method below displays all properties / methods of IGH_Param
+            # print(dir(param))
+    return output["result"]
+
+
+def gh_make_sphere(radius):
+    '''
+    Make a shpere with the given radius and return results from gh c# component
+    '''
+    archive.ReadFromFile("gh_files/rhinoinsideTestFIle.gh")
+    archive.ExtractObject(definition, "Definition")
+
+    output = {
+        "result":""
+    }
+
+    for ob in definition.Objects:
+
+        if(ob.NickName == "radius"):
+            param = IGH_Param(ob)
+            param.ClearData
+            param.AddVolatileData(GH_Path(0), 0, radius)
+
+        if(ob.NickName == "ResultSphere"):
+            param = IGH_Param(ob)
+            param.ClearData()
+            param.CollectData()
+            param.ComputeData()
+            result = param.get_VolatileData()[0][0]
+            output["result"] = result
+            print(type(result))
 
             # the method below displays all properties / methods of IGH_Param
             # print(dir(param))
