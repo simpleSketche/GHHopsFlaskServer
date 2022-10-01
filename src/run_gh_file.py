@@ -86,7 +86,7 @@ def gh_make_sphere(radius):
             param.CollectData()
             param.ComputeData()
             result = param.get_VolatileData()[0][0]
-            output["result"] = result
+            output["result"] = result.Value.Vertices[0]
             print(type(result))
 
             # the method below displays all properties / methods of IGH_Param
