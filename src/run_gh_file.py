@@ -85,7 +85,7 @@ def gh_make_sphere(radius):
             result = param.get_VolatileData()[0][0]
             mesh = result.Value
             area = Rhino.Geometry.AreaMassProperties.Compute(mesh).Area
-            output["result"] = area
+            output["result"] = mesh
             print(output["result"])
 
             # the method below displays all properties / methods of IGH_Param
