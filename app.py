@@ -1,6 +1,6 @@
 from src.run_gh_file import gh_addition
 from src.run_gh_file import gh_make_sphere
-from flask import Flask, Blueprint
+from flask import Flask
 
 
 
@@ -16,7 +16,7 @@ def run_cal(num1, num2):
 
 @app.route("/makeSphere/<radius>")
 def run_make_sphere(radius):
-    return "result is {}".format(gh_make_sphere(float(radius)))
+    return gh_make_sphere(float(radius))
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

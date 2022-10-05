@@ -2,6 +2,7 @@
 from pathlib import Path
 import rhinoinside
 import clr
+import json
 sysdir = Path(r"C:\Program Files\Rhino 7\System")
 plugdir = Path(sysdir, "..", "Plug-ins").resolve()
 rhinoinside.load()
@@ -14,7 +15,6 @@ clr.AddReference(GrasshopperDll)
 clr.AddReference(GH_IODll)
 clr.AddReference(GH_UtilDll)
 # Set up ready, now do the actual Rhino usage
-import Rhino
 from Grasshopper.Kernel import GH_Document
 from GH_IO.Serialization import GH_Archive
 from Grasshopper.Kernel.Data import GH_Path
@@ -31,10 +31,6 @@ def gh_addition(input):
     archive.ReadFromFile("gh_files/rhinoinsideTestFIle.gh")
     archive.ExtractObject(definition, "Definition")
 
-    output = {
-        "result":""
-    }
-
     for ob in definition.Objects:
 
         if(ob.NickName == "num1"):
@@ -48,12 +44,13 @@ def gh_addition(input):
             param.CollectData()
             param.ComputeData()
             result = param.get_VolatileData()[0][0]
-            output["result"] = result
+            output= result
             print(result)
+            return output
 
             # the method below displays all properties / methods of IGH_Param
             # print(dir(param))
-    return output["result"]
+    return
 
 
 def gh_make_sphere(radius):
@@ -66,9 +63,7 @@ def gh_make_sphere(radius):
     archive.ReadFromFile("gh_files/rhinoinsideTestFIle.gh")
     archive.ExtractObject(definition, "Definition")
 
-    output = {
-        "result":""
-    }
+    output = ""
 
     for ob in definition.Objects:
 
@@ -77,17 +72,17 @@ def gh_make_sphere(radius):
             param.ClearData()
             param.AddVolatileData(GH_Path(0), 0, radius)
 
-        if(ob.NickName == "ResultSphere"):
+        if(ob.NickName == "outputString"):
             param = IGH_Param(ob)
             param.ClearData()
             param.CollectData()
             param.ComputeData()
             result = param.get_VolatileData()[0][0]
-            mesh = result.Value
-            area = Rhino.Geometry.AreaMassProperties.Compute(mesh).Area
-            output["result"] = mesh
-            print(output["result"])
+            meshJson = result.Value
+            output= json.loads(meshJson)
+            print(output)
+            return output
 
             # the method below displays all properties / methods of IGH_Param
             # print(dir(param))
-    return output["result"]
+    return
