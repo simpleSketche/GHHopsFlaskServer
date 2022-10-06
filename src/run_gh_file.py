@@ -88,6 +88,17 @@ def gh_make_sphere(radius):
             output["result"] = area
             print(area)
 
+        if(ob.NickName == "stringOutput"):
+            param = IGH_Param(ob)
+            param.ClearData()
+            param.CollectData()
+            param.ComputeData()
+            result = param.get_VolatileData()[0][0]
+            meshJson = result.Value
+            # output= json.loads(meshJson)
+            # print(output)
+            return output
+
             # the method below displays all properties / methods of IGH_Param
             # print(dir(param))
     return output["result"]
