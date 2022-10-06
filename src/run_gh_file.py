@@ -78,9 +78,12 @@ def gh_make_sphere(radius):
             testParam.CollectData()
             testParam.ComputeData()
             test = testParam.get_VolatileData()[0][0]
-            mesh = test.Value
-            area = Rhino.Geometry.AreaMassProperties.Compute(mesh).Area
-            print(area)
+            if(test != None):
+                mesh = test.Value
+                area = Rhino.Geometry.AreaMassProperties.Compute(mesh).Area
+                print(area)
+            
+            
 
         if(ob.NickName == "outputString"):
             param = IGH_Param(ob)
