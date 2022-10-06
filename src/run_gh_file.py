@@ -15,6 +15,7 @@ clr.AddReference(GrasshopperDll)
 clr.AddReference(GH_IODll)
 clr.AddReference(GH_UtilDll)
 # Set up ready, now do the actual Rhino usage
+import Rhino
 from Grasshopper.Kernel import GH_Document
 from GH_IO.Serialization import GH_Archive
 from Grasshopper.Kernel.Data import GH_Path
@@ -45,7 +46,6 @@ def gh_addition(input):
             param.ComputeData()
             result = param.get_VolatileData()[0][0]
             output= result
-            print(result)
             return output
 
             # the method below displays all properties / methods of IGH_Param
@@ -68,9 +68,19 @@ def gh_make_sphere(radius):
     for ob in definition.Objects:
 
         if(ob.NickName == "radius"):
-            param = IGH_Param(ob)
-            param.ClearData()
-            param.AddVolatileData(GH_Path(0), 0, radius)
+            inputParam = IGH_Param(ob)
+            inputParam.ClearData()
+            inputParam.AddVolatileData(GH_Path(0), 0, radius)
+
+        if(ob.NickName == "ResultSphere"):
+            testParam = IGH_Param(ob)
+            testParam.ClearData()
+            testParam.CollectData()
+            testParam.ComputeData()
+            test = testParam.get_VolatileData()[0][0]
+            mesh = test.Value
+            area = Rhino.Geometry.AreaMassProperties.Compute(mesh).Area
+            print(area)
 
         if(ob.NickName == "outputString"):
             param = IGH_Param(ob)
@@ -80,7 +90,6 @@ def gh_make_sphere(radius):
             result = param.get_VolatileData()[0][0]
             meshJson = result.Value
             output= json.loads(meshJson)
-            print(output)
             return output
 
             # the method below displays all properties / methods of IGH_Param

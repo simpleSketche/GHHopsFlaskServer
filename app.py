@@ -16,6 +16,7 @@ def run_cal(num1, num2):
 
 @app.route("/makeSphere/<radius>")
 def run_make_sphere(radius):
+    print(radius)
     return gh_make_sphere(float(radius))
 
 if __name__ == "__main__":
