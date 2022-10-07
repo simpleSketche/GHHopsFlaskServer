@@ -1,5 +1,6 @@
 from src.run_gh_file import gh_addition
 from src.run_gh_file import gh_make_sphere
+from src.run_generator import get_result
 from flask import Flask
 
 
@@ -18,6 +19,10 @@ def run_cal(num1, num2):
 def run_make_sphere(radius):
     print(radius)
     return gh_make_sphere(float(radius))
+
+@app.route("/getGeneratedResult")
+def get_generate_result():
+    return get_result()
 
 if __name__ == "__main__":
     app.run(debug=True)

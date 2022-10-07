@@ -29,7 +29,8 @@ def gh_addition(input):
     # run and access GH document
     definition = GH_Document()
     archive = GH_Archive()
-    archive.ReadFromFile("gh_files/rhinoinsideTestFIle.gh")
+    # archive.ReadFromFile("gh_files/rhinoinsideTestFIle.gh")
+    archive.ReadFromFile(gh_file_path)
     archive.ExtractObject(definition, "Definition")
 
     for ob in definition.Objects:
